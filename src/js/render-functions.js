@@ -1,6 +1,7 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 const myGallery = document.querySelector(".gallery");
+const myLoadMoreButton = document.querySelector(".buttonLoadMore");
 
 export function createGallery(images) {
   function galleryItemInsertion({
@@ -61,4 +62,9 @@ export function hideLoader() {
   myLoader.classList.add("visuallyhidden");
 }
 
-console.log("mygallery", myGallery);
+export function showLoadMoreButton() {
+  myLoadMoreButton.classList.remove("visuallyhidden");
+}
+export function hideLoadMoreButton() {
+  myLoadMoreButton.classList.add("visuallyhidden");
+}
