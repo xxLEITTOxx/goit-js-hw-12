@@ -6,6 +6,7 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
+  scrollToNextGroup,
 } from "./js/render-functions.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
@@ -63,6 +64,11 @@ async function onSubmit(event) {
       });
     } else {
       createGallery(myData.hits);
+      if (myData.hits.length === 15) {
+        showLoadMoreButton();
+      } else {
+        hideLoadMoreButton();
+      }
     }
   } catch (error) {
     iziToast.error({
@@ -90,6 +96,7 @@ async function onCLickLoadMore() {
     const newImages = await getImagesByQuery(myQuery, page);
 
     createGallery(newImages.hits);
+    scrollToNextGroup();
     if (newImages.hits.length === 15) {
       showLoadMoreButton();
     } else {
@@ -97,7 +104,7 @@ async function onCLickLoadMore() {
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
         position: "topRight",
-        backgroundColor: "rgba(76, 175, 80, 0.8)",
+        backgroundColor: "rgba(255, 106, 0, 0.95)",
         maxWidth: "432px",
         minHeight: "88px",
         padding: "20px",
@@ -119,5 +126,6 @@ async function onCLickLoadMore() {
     });
   } finally {
     hideLoader();
+    myLoadMoreButton.blur();
   }
 }
