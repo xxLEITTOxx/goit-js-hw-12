@@ -6,7 +6,6 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-  scrollToNextGroup,
 } from "./js/render-functions.js";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
@@ -19,7 +18,9 @@ hideLoadMoreButton(); //           hide button during page loading
 const myForm = document.querySelector(".form");
 const searchImage = document.querySelector('input[name="search-text"]');
 const myLoadMoreButton = document.querySelector(".buttonLoadMore");
-let myQuery = searchImage.value.trim();
+let myQuery;
+
+myForm.reset();
 
 myForm.addEventListener("submit", onSubmit);
 async function onSubmit(event) {
@@ -45,9 +46,9 @@ async function onSubmit(event) {
 
     myTotalHits = myData.total;
 
-    if (myTotalHits >= 15) {
-      showLoadMoreButton();
-    }
+    // if (myTotalHits >= 15) {
+    //   showLoadMoreButton();
+    // }
 
     if (myTotalHits === 0) {
       hideLoadMoreButton();
@@ -64,12 +65,13 @@ async function onSubmit(event) {
       });
     } else {
       createGallery(myData.hits);
-      if (myData.hits.length === 15) {
+      if (page * imagesPerPage < myTotalHits) {
         showLoadMoreButton();
       } else {
         hideLoadMoreButton();
       }
     }
+    myForm.reset();
   } catch (error) {
     iziToast.error({
       title: "Error",
@@ -80,7 +82,6 @@ async function onSubmit(event) {
     });
   } finally {
     hideLoader();
-    myForm.reset();
   }
 }
 
@@ -96,8 +97,8 @@ async function onCLickLoadMore() {
     const newImages = await getImagesByQuery(myQuery, page);
 
     createGallery(newImages.hits);
-    scrollToNextGroup();
-    if (newImages.hits.length === 15) {
+
+    if (page * imagesPerPage <= myTotalHits) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
@@ -127,5 +128,17 @@ async function onCLickLoadMore() {
   } finally {
     hideLoader();
     myLoadMoreButton.blur();
+    scrollToNextGroup();
+  }
+}
+
+function scrollToNextGroup() {
+  const galleryItem = document.querySelector(".gallery-item");
+  if (galleryItem) {
+    const itemHeight = galleryItem.getBoundingClientRect().height;
+    window.scrollBy({
+      top: itemHeight * 2,
+      behavior: "smooth",
+    });
   }
 }

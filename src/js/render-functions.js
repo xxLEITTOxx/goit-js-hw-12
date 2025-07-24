@@ -68,14 +68,3 @@ export function showLoadMoreButton() {
 export function hideLoadMoreButton() {
   myLoadMoreButton.classList.add("visuallyhidden");
 }
-
-export function scrollToNextGroup() {
-  const galleryItem = document.querySelector(".gallery-item");
-  if (galleryItem) {
-    const itemHeight = galleryItem.getBoundingClientRect().height;
-    window.scrollBy({
-      top: itemHeight * 2,
-      behavior: "smooth",
-    });
-  }
-}
