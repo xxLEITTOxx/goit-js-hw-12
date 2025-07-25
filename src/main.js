@@ -113,6 +113,7 @@ async function onCLickLoadMore() {
         html: true,
       });
     }
+    scrollToNextGroup();
   } catch (error) {
     iziToast.error({
       title: "Error",
@@ -128,7 +129,6 @@ async function onCLickLoadMore() {
   } finally {
     hideLoader();
     myLoadMoreButton.blur();
-    scrollToNextGroup();
   }
 }
 
