@@ -46,10 +46,6 @@ async function onSubmit(event) {
 
     myTotalHits = myData.total;
 
-    // if (myTotalHits >= 15) {
-    //   showLoadMoreButton();
-    // }
-
     if (myTotalHits === 0) {
       hideLoadMoreButton();
       iziToast.info({
@@ -98,7 +94,7 @@ async function onCLickLoadMore() {
 
     createGallery(newImages.hits);
 
-    if (page * imagesPerPage <= myTotalHits) {
+    if (page * imagesPerPage < myTotalHits) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();

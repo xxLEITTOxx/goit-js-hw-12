@@ -3,6 +3,12 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const myGallery = document.querySelector(".gallery");
 const myLoadMoreButton = document.querySelector(".buttonLoadMore");
 
+let myLightbox = new SimpleLightbox(".gallery-link", {
+  captionsData: "alt",
+  captionDelay: 250,
+  captionPosition: "bottom",
+});
+
 export function createGallery(images) {
   function galleryItemInsertion({
     webformatURL,
@@ -42,11 +48,6 @@ export function createGallery(images) {
   const newGallerySyntax = images.map(galleryItemInsertion).join("");
   myGallery.insertAdjacentHTML("beforeend", newGallerySyntax);
 
-  const myLightbox = new SimpleLightbox(".gallery-link", {
-    captionsData: "alt",
-    captionDelay: 250,
-    captionPosition: "bottom",
-  });
   myLightbox.refresh();
 }
 
